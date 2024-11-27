@@ -138,4 +138,6 @@ public class Customer {
         String sql = "DELETE FROM customer WHERE id = ?";
         conf.deleteRecord(sql, id);
     }
+    
+    
 }

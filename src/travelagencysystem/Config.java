@@ -201,6 +201,26 @@ public void addRecord(String sql, Object... values) {
         
         return true;  
     }
+    public String getTripStatus(int tripId) {
+    String status = null;
+    String query = "SELECT status FROM trip WHERE id = ?"; // Adjust table and column names as necessary
+
+    try (Connection conn = connectDB(); // Use the connectDB method
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setInt(1, tripId);
+        ResultSet rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            status = rs.getString("status"); // Assuming the column name is 'status'
+        } else {
+            System.out.println("Trip ID not found.");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return status; // Will return null if not found or in case of an error
+}
 }
 
 

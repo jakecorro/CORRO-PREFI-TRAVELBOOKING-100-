@@ -45,28 +45,34 @@ public class Booking {
     }
 
     private void addBooking() {
-        System.out.println("Enter Booking Details:");
+    System.out.println("Enter Booking Details:");
 
-        int customerId;
-        do {
-            System.out.print("\nCustomer ID: ");
-            customerId = scan.nextInt();
-            if (!conf.doesIDExist("customer", customerId)) {
-                System.out.println("Customer ID doesn't exist.");
-            }
-        } while (!conf.doesIDExist("customer", customerId));
+    int customerId;
+    do {
+        System.out.print("\nCustomer ID: ");
+        customerId = scan.nextInt();
+        if (!conf.doesIDExist("customer", customerId)) {
+            System.out.println("Customer ID doesn't exist.");
+        }
+    } while (!conf.doesIDExist("customer", customerId));
 
-        int tripId;
-        do {
-            System.out.print("Trip ID: ");
-            tripId = scan.nextInt();
-            if (!conf.doesIDExist("trip", tripId)) {
-                System.out.println("Trip ID doesn't exist.");
-            }
-        } while (!conf.doesIDExist("trip", tripId));
+    int tripId;
+    do {
+        System.out.print("Trip ID: ");
+        tripId = scan.nextInt();
+        if (!conf.doesIDExist("trip", tripId)) {
+            System.out.println("Trip ID doesn't exist.");
+        }
+    } while (!conf.doesIDExist("trip", tripId));
+    scan.nextLine();
 
-        scan.nextLine(); 
-
+    
+    String tripStatus = conf.getTripStatus(tripId); 
+    if (tripStatus.equalsIgnoreCase("unavailable")) {
+        System.out.println("Cannot book this trip. The trip is currently unavailable.");
+        return; 
+    }
+              
          String bookingDate;
         while (true) {
         System.out.print("Booking Date (YYYY-MM-DD): ");
@@ -109,12 +115,13 @@ public class Booking {
                
         String sql = "INSERT INTO booking (customer_id, trip_id, booking_date, status, trip_type, group_size) VALUES (?, ?, ?, ?, ?, ?)";
         conf.addRecord(sql, customerId, tripId, bookingDate, status, tripType, groupSize );
-    }
+    
+}
 
     public void viewBookings() {
         String query = "SELECT * FROM booking";
-        String[] headers = {"ID", "Customer ID", "Trip ID", "Booking Date", "status", "Trip Type", "Group Size "};
-        String[] columns = {"id", "customer_id", "trip_id", "booking_date", "status", "trip_type", "group_size "};
+        String[] headers = {"ID", "Customer ID", "Trip ID", "Booking Date", "status", "Trip Type", "Group Size"};
+        String[] columns = {"id", "customer_id", "trip_id", "booking_date", "status", "trip_type", "group_size"};
         conf.viewRecords(query, headers, columns);
     }
 

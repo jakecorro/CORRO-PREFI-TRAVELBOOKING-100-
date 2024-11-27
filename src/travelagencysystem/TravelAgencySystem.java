@@ -1,4 +1,6 @@
-package travelagencysystem; import java.util.InputMismatchException; import java.util.Scanner;
+package travelagencysystem;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class TravelAgencySystem { static Config conf = new Config();
 
